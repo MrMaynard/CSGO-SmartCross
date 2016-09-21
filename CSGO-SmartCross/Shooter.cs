@@ -119,15 +119,16 @@ namespace CSGO_SmartCross
                                     GetColorAt(screenCenter.X - 1, screenCenter.Y + 1)
                                 };
 
+            byte count = 0;
             for (int i = 0; i < 4; i++)
             {
                 if (difference(normalPixels[i], newPixels[i]))
                 {
-                    return true;
+                    count++;
                 }
             }
 
-            return false;
+            return count == 4;
         }
 
 
