@@ -419,7 +419,31 @@ namespace CSGO_SmartCross
 
         private void advancedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //todo
+            using (var form = new AdvancedWindow())
+            {
+                var response = form.ShowDialog();
+                if(response == DialogResult.OK)
+                {
+                    String[] result = form.results;
+                    m.height = Int32.Parse(result[0]);
+                    m.width = Int32.Parse(result[1]);
+
+                    m.delay = Int32.Parse(result[2]);
+                    m.processor.delay = Int32.Parse(result[3]);
+                    m.processor.painter.delay = Int32.Parse(result[4]);
+                    m.processor.rcsMan.delay = Int32.Parse(result[5]);
+
+                    hooker.delay = Int32.Parse(result[6]);
+
+                    hooker.hopper.delay = Int32.Parse(result[7]);
+                    hooker.hopper.downTime = Int32.Parse(result[8]);
+
+                    hooker.shooter.delay = Int32.Parse(result[9]);
+                    hooker.shooter.reactionTime = Int32.Parse(result[10]);
+                    hooker.shooter.rapidFireTime = Int32.Parse(result[11]);
+
+                }
+            }
         }
 
         private void saveSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -430,7 +454,7 @@ namespace CSGO_SmartCross
             sfd.FilterIndex = 2;
             sfd.RestoreDirectory = true;
 
-            if (sfd.ShowDialog() == DialogResult.OK)
+            if (sfd.ShowDialog() == DialogResult.OK)s
             {
                 Saver.save(sfd.FileName, m, hooker, crosshairFile);
             }
