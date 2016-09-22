@@ -80,6 +80,9 @@
     <Compile Include="TestImage.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="VectorTable.cs" />
+    <EmbeddedResource Include="AdvancedWindow.resx">
+      <DependentUpon>AdvancedWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI.resx">
       <DependentUpon>GUI.cs</DependentUpon>
     </EmbeddedResource>

@@ -454,7 +454,7 @@ namespace CSGO_SmartCross
             sfd.FilterIndex = 2;
             sfd.RestoreDirectory = true;
 
-            if (sfd.ShowDialog() == DialogResult.OK)s
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
                 Saver.save(sfd.FileName, m, hooker, crosshairFile);
             }

@@ -195,10 +195,7 @@ namespace CSGO_SmartCross
 
         public Bitmap captureScreen()
         {
-            Bitmap bmp = new Bitmap(area.Width, area.Height, PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(bmp);
-            g.CopyFromScreen(area.Left, area.Top, 0, 0, bmp.Size, CopyPixelOperation.SourceCopy);
-            return bmp;
+            return CaptureScreen.GetDesktopImage();
         }
 
         //should be run once to find the right color to filter by:

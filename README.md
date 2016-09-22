@@ -11,3 +11,6 @@ Without maintaining a handle to the game process, SmartCross provides:
 Because SmartCross doesn't access any memory outside of its own address space (or even open a handle to csgo.exe)
 and contains no recycled code, there's no reason to believe that it could be flagged by the Valve Anti-Cheat system (VAC)
 or cause an in-game ban.
+
+# Roadmap
+* OpenCV-powered aimbot

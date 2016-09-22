@@ -1103,7 +1103,7 @@ namespace CSGO_SmartCross
             }
         }
 
-        void moveMouseTo(float x, float y)
+        public void moveMouseTo(float x, float y)
         {
             moveInput.U.mi.dx = (int)((x) * (65536.0f / screenSize.X));//x being coord in pixels
             moveInput.U.mi.dy = (int)((y) * (65536.0f / screenSize.Y));//y being coord in pixels
