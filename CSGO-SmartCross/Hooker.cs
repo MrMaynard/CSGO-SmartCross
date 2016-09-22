@@ -40,6 +40,7 @@ namespace CSGO_SmartCross
         public RcsManager rcsMan;
         public Processor processor;
         public Hopper hopper;
+        public Trex trex;
 
         public bool bHopToggle = false;
         public bool rcsToggle = true;
@@ -47,11 +48,12 @@ namespace CSGO_SmartCross
         public bool rapidToggle = false;
         private bool rapidMode = false;
         private bool bHopMode = false;
-        
+
+        public bool trexMode = false;
 
         public int delay = 10;
 
-        public Hooker(Shooter shooter, RcsManager rcsMan, Processor processor, Hopper hopper, Keys triggerKey, Keys rcsKey, Keys primaryKey, Keys secondaryKey, Keys rapidKey)
+        public Hooker(Shooter shooter, RcsManager rcsMan, Processor processor, Hopper hopper, Trex trex, Keys triggerKey, Keys rcsKey, Keys primaryKey, Keys secondaryKey, Keys rapidKey)
         {
             this.triggerKey = triggerKey;
             this.rcsKey = rcsKey;
@@ -59,6 +61,7 @@ namespace CSGO_SmartCross
             this.rcsMan = rcsMan;
             this.processor = processor;
             this.hopper = hopper;
+            this.trex = trex;
             this.primaryKey = primaryKey;
             this.secondaryKey = secondaryKey;
             this.rapidKey = rapidKey;
@@ -95,7 +98,11 @@ namespace CSGO_SmartCross
                     }
                     else if (!pressed & triggerWasPressed)
                     {
-                        shooter.enabled = !shooter.enabled;//toggle on release
+                        if(trexMode)
+                            trex.enabled = !trex.enabled;//toggle on release
+                        else
+                            shooter.enabled = !shooter.enabled;//toggle on release
+
                         triggerWasPressed = false;
                     }
                     else
@@ -105,7 +112,10 @@ namespace CSGO_SmartCross
                 }
                 else
                 {
-                    shooter.enabled = isKeyDown(triggerKey);//things are simpler in hold mode.
+                    if (trexMode)
+                        trex.enabled = isKeyDown(triggerKey);//things are simpler in hold mode.
+                    else
+                        shooter.enabled = isKeyDown(triggerKey);//things are simpler in hold mode.
                 }
 
                 if (rcsToggle)//if toggle mode, follow this procedure:

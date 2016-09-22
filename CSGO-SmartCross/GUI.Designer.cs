@@ -65,11 +65,17 @@
             this.crosshairImageButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tRExToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.awpModeBox = new System.Windows.Forms.CheckBox();
+            this.trexBox = new System.Windows.Forms.CheckBox();
+            this.trackingBox = new System.Windows.Forms.CheckBox();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -119,7 +125,7 @@
             // alwaysBox
             // 
             this.alwaysBox.AutoSize = true;
-            this.alwaysBox.Location = new System.Drawing.Point(86, 368);
+            this.alwaysBox.Location = new System.Drawing.Point(86, 370);
             this.alwaysBox.Name = "alwaysBox";
             this.alwaysBox.Size = new System.Drawing.Size(129, 17);
             this.alwaysBox.TabIndex = 17;
@@ -129,7 +135,7 @@
             // 
             // crosshairButton
             // 
-            this.crosshairButton.Location = new System.Drawing.Point(12, 340);
+            this.crosshairButton.Location = new System.Drawing.Point(12, 342);
             this.crosshairButton.Name = "crosshairButton";
             this.crosshairButton.Size = new System.Drawing.Size(265, 22);
             this.crosshairButton.TabIndex = 18;
@@ -715,7 +721,7 @@
             // crosshairBox
             // 
             this.crosshairBox.ImageLocation = "crosshair.bmp";
-            this.crosshairBox.Location = new System.Drawing.Point(101, 255);
+            this.crosshairBox.Location = new System.Drawing.Point(101, 257);
             this.crosshairBox.Name = "crosshairBox";
             this.crosshairBox.Size = new System.Drawing.Size(50, 50);
             this.crosshairBox.TabIndex = 36;
@@ -725,7 +731,7 @@
             // crosshairLabel
             // 
             this.crosshairLabel.AutoSize = true;
-            this.crosshairLabel.Location = new System.Drawing.Point(12, 251);
+            this.crosshairLabel.Location = new System.Drawing.Point(12, 253);
             this.crosshairLabel.Name = "crosshairLabel";
             this.crosshairLabel.Size = new System.Drawing.Size(85, 13);
             this.crosshairLabel.TabIndex = 37;
@@ -733,7 +739,7 @@
             // 
             // crosshairImageButton
             // 
-            this.crosshairImageButton.Location = new System.Drawing.Point(12, 311);
+            this.crosshairImageButton.Location = new System.Drawing.Point(12, 313);
             this.crosshairImageButton.Name = "crosshairImageButton";
             this.crosshairImageButton.Size = new System.Drawing.Size(108, 23);
             this.crosshairImageButton.TabIndex = 38;
@@ -745,6 +751,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.tRExToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -759,6 +766,12 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // tRExToolStripMenuItem
+            // 
+            this.tRExToolStripMenuItem.Name = "tRExToolStripMenuItem";
+            this.tRExToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.tRExToolStripMenuItem.Text = "T-REx";
+            // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -769,6 +782,27 @@
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
             // 
+            // advancedToolStripMenuItem
+            // 
+            this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
+            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.advancedToolStripMenuItem.Text = "Advanced";
+            this.advancedToolStripMenuItem.Click += new System.EventHandler(this.advancedToolStripMenuItem_Click);
+            // 
+            // saveSettingsToolStripMenuItem
+            // 
+            this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
+            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.saveSettingsToolStripMenuItem.Text = "Save Settings";
+            this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
+            // 
+            // loadSettingsToolStripMenuItem
+            // 
+            this.loadSettingsToolStripMenuItem.Name = "loadSettingsToolStripMenuItem";
+            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.loadSettingsToolStripMenuItem.Text = "Load Settings";
+            this.loadSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSettingsToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
@@ -776,32 +810,59 @@
             this.helpToolStripMenuItem.Text = "Help";
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
-            // advancedToolStripMenuItem
+            // checkBox1
             // 
-            this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.advancedToolStripMenuItem.Text = "Advanced";
-            this.advancedToolStripMenuItem.Click += new System.EventHandler(this.advancedToolStripMenuItem_Click);
+            this.checkBox1.Location = new System.Drawing.Point(0, 0);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(104, 24);
+            this.checkBox1.TabIndex = 0;
             // 
-            // saveSettingsToolStripMenuItem
+            // awpModeBox
             // 
-            this.saveSettingsToolStripMenuItem.Name = "saveSettingsToolStripMenuItem";
-            this.saveSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.saveSettingsToolStripMenuItem.Text = "Save Settings";
-            this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
+            this.awpModeBox.AutoSize = true;
+            this.awpModeBox.Location = new System.Drawing.Point(206, 279);
+            this.awpModeBox.Name = "awpModeBox";
+            this.awpModeBox.Size = new System.Drawing.Size(81, 17);
+            this.awpModeBox.TabIndex = 40;
+            this.awpModeBox.Text = "AWP Mode";
+            this.awpModeBox.UseVisualStyleBackColor = true;
+            this.awpModeBox.CheckedChanged += new System.EventHandler(this.awpModeBox_CheckedChanged);
             // 
-            // loadSettingsToolStripMenuItem
+            // trexBox
             // 
-            this.loadSettingsToolStripMenuItem.Name = "loadSettingsToolStripMenuItem";
-            this.loadSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.loadSettingsToolStripMenuItem.Text = "Load Settings";
-            this.loadSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadSettingsToolStripMenuItem_Click);
+            this.trexBox.AutoSize = true;
+            this.trexBox.Location = new System.Drawing.Point(165, 252);
+            this.trexBox.Name = "trexBox";
+            this.trexBox.Size = new System.Drawing.Size(109, 17);
+            this.trexBox.TabIndex = 41;
+            this.trexBox.Text = "T-REX Triggerbot";
+            this.trexBox.UseVisualStyleBackColor = true;
+            this.trexBox.CheckedChanged += new System.EventHandler(this.trexBox_CheckedChanged);
+            // 
+            // trackingBox
+            // 
+            this.trackingBox.AutoSize = true;
+            this.trackingBox.Location = new System.Drawing.Point(206, 303);
+            this.trackingBox.Name = "trackingBox";
+            this.trackingBox.Size = new System.Drawing.Size(68, 17);
+            this.trackingBox.TabIndex = 42;
+            this.trackingBox.Text = "Tracking";
+            this.trackingBox.UseVisualStyleBackColor = true;
+            this.trackingBox.CheckedChanged += new System.EventHandler(this.trackingBox_CheckedChanged);
+            // 
+            // printDocument1
+            // 
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
             // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(299, 393);
+            this.ClientSize = new System.Drawing.Size(299, 400);
+            this.Controls.Add(this.trackingBox);
+            this.Controls.Add(this.trexBox);
+            this.Controls.Add(this.awpModeBox);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.crosshairImageButton);
             this.Controls.Add(this.crosshairLabel);
             this.Controls.Add(this.crosshairBox);
@@ -894,6 +955,12 @@
         private System.Windows.Forms.ToolStripMenuItem advancedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tRExToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox awpModeBox;
+        private System.Windows.Forms.CheckBox trexBox;
+        private System.Windows.Forms.CheckBox trackingBox;
+        private System.Drawing.Printing.PrintDocument printDocument1;
     }
 }
 

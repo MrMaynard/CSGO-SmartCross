@@ -20,8 +20,8 @@ namespace CSGO_SmartCross
         {
             List<BrushStroke> list = new List<BrushStroke>();
 
-            BrushStroke left = new BrushStroke(new Rectangle(position.X + -10, position.Y + -1, 7, 3), Color.Blue);
-            BrushStroke right = new BrushStroke(new Rectangle(position.X + 3, position.Y + -1, 7, 3), Color.Blue);
+            BrushStroke left = new BrushStroke(new Rectangle(position.X + -10, position.Y + -1, 7, 3), Color.AliceBlue);
+            BrushStroke right = new BrushStroke(new Rectangle(position.X + 3, position.Y + -1, 7, 3), Color.AliceBlue);
 
             list.Add(left);
             list.Add(right);

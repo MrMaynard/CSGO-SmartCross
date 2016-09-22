@@ -30,6 +30,7 @@ namespace CSGO_SmartCross
         Hooker hooker = null;
         Processor processor = null;
         Hopper hopper = null;
+        Trex trex = null;
 
         Point screenSize = new Point(1920, 1080);
 
@@ -50,10 +51,11 @@ namespace CSGO_SmartCross
             m.processor = processor;
             setupTable();
             
-            //todo account for screen size using GUI:
-            screenSize = new Point(1920, 1080);
             shooter = new Shooter(100, new Point(screenSize.X / 2, screenSize.Y / 2));
-            hooker = new Hooker(shooter, rcsMan, processor, hopper, Keys.A, Keys.A, Keys.A, Keys.A, Keys.A);
+
+            trex = new Trex(screenSize);
+
+            hooker = new Hooker(shooter, rcsMan, processor, hopper, trex, Keys.A, Keys.A, Keys.A, Keys.A, Keys.A);
             
             //load in default keys:
             triggerKeyBox.SelectedIndex = triggerKeyBox.Items.IndexOf("T");
@@ -496,6 +498,8 @@ namespace CSGO_SmartCross
                     //advanced
                     m.height = Int32.Parse(result[11]);
                     m.width = Int32.Parse(result[12]);
+                    screenSize.Y = Int32.Parse(result[11]);
+                    screenSize.X = Int32.Parse(result[12]);
 
                     m.delay = Int32.Parse(result[13]);
                     m.processor.delay = Int32.Parse(result[14]);
@@ -517,6 +521,28 @@ namespace CSGO_SmartCross
                     MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
                 }
             }
+        }
+
+        private void trexBox_CheckedChanged(object sender, EventArgs e)
+        {
+            trex.enabled = false;
+            shooter.enabled = false;
+            hooker.trexMode = trexBox.Checked;
+        }
+
+        private void awpModeBox_CheckedChanged(object sender, EventArgs e)
+        {
+            trex.awpMode = trackingBox.Checked;
+        }
+
+        private void trackingBox_CheckedChanged(object sender, EventArgs e)
+        {
+            trex.trackingMode = trackingBox.Checked;
+        }
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+
         }
     }
 }
