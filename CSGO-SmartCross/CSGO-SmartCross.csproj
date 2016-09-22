@@ -32,6 +32,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Emgu.CV.DebuggerVisualizers.VS2015">
+      <HintPath>..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.DebuggerVisualizers.VS2015.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI">
+      <HintPath>..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI.GL">
+      <HintPath>..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.UI.GL.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.World">
+      <HintPath>..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\Emgu.CV.World.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,6 +56,9 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="ZedGraph">
+      <HintPath>..\..\..\..\..\Emgu\emgucv-windesktop 3.1.0.2282\bin\ZedGraph.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdvancedWindow.cs">
@@ -75,9 +90,11 @@
     <Compile Include="RcsManager.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="Saver.cs" />
+    <Compile Include="ScreenshotHandler.cs" />
     <Compile Include="Shooter.cs" />
     <Compile Include="ShotTable.cs" />
     <Compile Include="TestImage.cs" />
+    <Compile Include="Tyrannosaurus.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="VectorTable.cs" />
     <EmbeddedResource Include="AdvancedWindow.resx">
@@ -110,6 +127,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="crosshair.bmp" />
+    <Content Include="cvextern.dll" />
+    <Content Include="msvcp120.dll" />
+    <Content Include="msvcr120.dll" />
+    <Content Include="opencv_ffmpeg310.dll" />
     <Content Include="patterns.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

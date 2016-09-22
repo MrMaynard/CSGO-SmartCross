@@ -1067,12 +1067,10 @@ namespace CSGO_SmartCross
         }
 
         INPUT moveInput;
-
-
+        
         //adds some randomization to the mouse movement to discourage bans.
         private void moveMouse(float x, float y)
         {
-            //Console.WriteLine(x + "\t" + y);
 
             if (random.Next(0, 100) < 50)
                 x += modifier(true);

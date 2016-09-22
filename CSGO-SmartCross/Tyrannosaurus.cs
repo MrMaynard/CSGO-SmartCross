@@ -10,6 +10,10 @@ using Emgu.CV.Structure;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Emgu.CV.Features2D;
+using Emgu.CV.XFeatures2D;
+using Emgu.CV.Util;
+using Emgu.CV.CvEnum;
 
 namespace CSGO_SmartCross
 {
@@ -1012,29 +1016,31 @@ namespace CSGO_SmartCross
         public volatile bool enabled = false;
         public int delay = 25;
 
-
         //config variables:
         public volatile bool trackingMode = false;
         public volatile bool awpMode = false;
         public int reactionTime = 10;
         public volatile int numShots = 3;
         public int rapidFireTime = 30;
+        public int trackerDelay = 100;
 
         public int minChange = 40;
         public int maxChange = (1920 * 1080) / 4;
+        public int scaleFactor = 2;
 
         //mouse movement variables
         private Point screenSize;
         Random random = new Random();
-        private const double vecToMouse = (.2 * 1.6 * .25 * 0.22);//todo: this changes with mouse sensitivity
+        private const double vecToMouse = (.2 * 1.6 * .25 * 0.22);
         
 
         public Tyrannosaurus(Point screenSize)
         {
-
             this.screenSize = screenSize;
 
-            //setup mouse input sender:
+            pastView = new Image<Bgr, Byte>(screenSize.X, screenSize.Y);
+            currentView = new Image<Bgr, Byte>(screenSize.X, screenSize.Y);
+
             moveInput.type = InputType.MOUSE;
             moveInput.U.mi.mouseData = 0;
             moveInput.U.mi.dwFlags = MOUSEEVENTF.ABSOLUTE | MOUSEEVENTF.MOVE;
@@ -1111,7 +1117,7 @@ namespace CSGO_SmartCross
                 Image<Gray, Byte> vFilter = channels[2].InRange(new Gray(vMin), new Gray(vMax));
 
                 Image<Gray, Byte> hsvFilter = hFilter.And(sFilter).And(vFilter);
-                //Image<Hsv, Byte> filtered = maskedView.Copy(hsvFilter);
+                
 
                 //todo extract only the closest object?
 
@@ -1123,12 +1129,19 @@ namespace CSGO_SmartCross
                 float rawX = (float)moments.M10 / (float)moments.M00;
                 float rawY = (float)moments.M01 / (float)moments.M00;
 
-                //kill target
                 acquired = true;
-                System.Threading.Thread.Sleep(reactionTime);
-                kill(rawX * 2f, rawY * 2f);
-
-                //todo track target over multiple frames using SURF & FLANN?
+                
+                //kill target
+                if (trackingMode & !awpMode)
+                {
+                    Image<Bgr, Byte> filtered = maskedView.Convert<Bgr, Byte>().Copy(hsvFilter);
+                    track(filtered);
+                }
+                else
+                {
+                    System.Threading.Thread.Sleep(reactionTime);
+                    killAndChill(rawX * scaleFactor, rawY * scaleFactor);
+                }
 
             }
 
@@ -1149,9 +1162,143 @@ namespace CSGO_SmartCross
 
         }
 
-        private void kill(float x, float y)
+        /*
+         * 
+         * The track function endeavors to:
+         * 
+         * Extract features from the target
+         * While the TREX is enabled:
+         *      find target in look()
+         *      move to target and shoot
+         *      sleep
+         * 
+         */
+        private void track(Image<Bgr, Byte> input)
         {
-            moveMouse(x, y);
+            //todo crop around image
+            Image<Bgr, Byte> target = cropToTarget(input);
+
+            //modified from http://www.emgu.com/wiki/index.php/FAST_feature_detector_in_CSharp
+            //and from http://www.emgu.com/wiki/index.php/SURF_feature_detector_in_CSharp
+            //extract features from original image:
+
+            FastDetector fastCPU = new FastDetector(10, true);
+            VectorOfKeyPoint modelKeyPoints = null;
+            Mat modelDescriptors = null;
+            BriefDescriptorExtractor descriptor = new BriefDescriptorExtractor();
+
+            descriptor.DetectAndCompute(target, null, modelKeyPoints, modelDescriptors, false);
+
+            
+            while (enabled)
+            {
+                //get an upated screenshot:
+                look().CopyTo(currentView);
+
+                //extract features from new screenshot:
+                VectorOfKeyPoint observedKeyPoints = null;
+                Mat observedDescriptors = null;
+                descriptor.DetectAndCompute(currentView, null, observedKeyPoints, observedDescriptors, false);
+
+                BFMatcher matcher = new BFMatcher(DistanceType.L2);
+
+                //add model data to matcher
+                IntPtr mdPointer = modelDescriptors.GetOutputArray();
+                matcher.Add((new OutputArray(mdPointer)).GetMat());
+
+                Mat mask = null;
+                Mat homography = null;
+
+                VectorOfVectorOfDMatch matches = new VectorOfVectorOfDMatch();
+                matcher.KnnMatch(observedDescriptors, matches, 2, null);
+                mask = new Mat(matches.Size, 1, DepthType.Cv8U, 1);
+                mask.SetTo(new MCvScalar(255));
+                Features2DToolbox.VoteForUniqueness(matches, 0.8, mask);
+
+                int nonZeroCount = CvInvoke.CountNonZero(mask);
+                if (nonZeroCount >= 4)
+                {
+                    nonZeroCount = Features2DToolbox.VoteForSizeAndOrientation(modelKeyPoints, observedKeyPoints,
+                       matches, mask, 1.5, 20);
+                    if (nonZeroCount >= 4)
+                        homography = Features2DToolbox.GetHomographyMatrixFromMatchedFeatures(modelKeyPoints,
+                           observedKeyPoints, matches, mask, 2);
+                }
+
+                //find the center of your target:
+                if (homography != null)
+                {
+                    //draw a rectangle along the projected model
+                    Rectangle rect = new Rectangle(Point.Empty, target.Size);
+                    PointF[] pts = new PointF[]
+                    {
+                      new PointF(rect.Left, rect.Bottom),
+                      new PointF(rect.Right, rect.Bottom),
+                      new PointF(rect.Right, rect.Top),
+                      new PointF(rect.Left, rect.Top)
+                    };
+                    pts = CvInvoke.PerspectiveTransform(pts, homography);
+
+                    PointF center = new PointF(0f, 0f);
+                    for(int i = 0; i < 4; i++)
+                    {
+                        center.X += pts[i].X;
+                        center.Y += pts[i].Y;
+                    }
+                    center.X /= 4;
+                    center.Y /= 4;
+
+                    //move to target:
+                    moveMouse((screenSize.X / 2 - center.X), (screenSize.Y / 2 - center.Y));
+
+                    //shoot the target:
+                    shoot();
+                }
+
+                //sleep for some amount of time before taking the next screenshot:
+                System.Threading.Thread.Sleep(trackerDelay);
+            }
+
+
+            //todo loop and shoot baby
+        }
+
+        private Image<Bgr, Byte> cropToTarget(Image<Bgr, Byte> input)
+        {
+            //                   left            right             top            bottom
+            int[] bounds = { Int32.MaxValue, Int32.MinValue, Int32.MaxValue, Int32.MinValue };
+
+            byte[,,] data = input.Data;
+
+            for(int x = 0; x < screenSize.X / scaleFactor; x++)
+            {
+                for(int y = 0; y < screenSize.Y / scaleFactor; y++)
+                {
+                    if(data[y, x, 0] == 255)
+                    {
+                        if (x < bounds[0])
+                            bounds[0] = x;
+                        else if (x > bounds[1])
+                            bounds[1] = x;
+
+                        if (y < bounds[2])
+                            bounds[2] = y;
+                        else if (y > bounds[3])
+                            bounds[3] = y;
+                    }
+                }
+            }
+
+            input.ROI = new Rectangle(bounds[0], bounds[2], bounds[1] - bounds[0], bounds[3] - bounds[2]);
+            Image<Bgr, Byte> target = new Image<Bgr, Byte>(bounds[1] - bounds[0], bounds[3] - bounds[2]);
+            input.CopyTo(target);
+            return target;
+
+        }
+
+        private void killAndChill(float x, float y)
+        {
+            moveMouse((screenSize.X/2 - x), (screenSize.Y/2 - y));
             if (awpMode)
             {
                 scope();
@@ -1167,6 +1314,8 @@ namespace CSGO_SmartCross
                 }
             }
 
+            System.Threading.Thread.Sleep(1000);//todo replace this with tracking?
+
             acquired = false;
 
         }
@@ -1178,7 +1327,7 @@ namespace CSGO_SmartCross
 
         private Image<Bgr, Byte> look()
         {
-            return new Image<Bgr, Byte>(CaptureScreen.GetDesktopImage()).Resize(.5, Emgu.CV.CvEnum.Inter.Cubic);
+            return new Image<Bgr, Byte>(CaptureScreen.GetDesktopImage()).Resize(1f / scaleFactor, Emgu.CV.CvEnum.Inter.Cubic);
         }
 
         /*
@@ -1236,15 +1385,16 @@ namespace CSGO_SmartCross
             if (random.Next(0, 100) < 50)
                 y += modifier(false);
 
-            System.Threading.Thread.Sleep(random.Next(5, 15));
+            System.Threading.Thread.Sleep(random.Next(2, 8));
             moveMouseBy(x / 2, y / 2);
-            System.Threading.Thread.Sleep(random.Next(5, 15));
+            System.Threading.Thread.Sleep(random.Next(2, 8));
             moveMouseBy(x / 2, y / 2);
 
         }
 
         private int modX = 1;
         private int modY = 1;
+
         private float modifier(bool x)
         {
             if (x)
