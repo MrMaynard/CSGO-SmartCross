@@ -80,6 +80,7 @@
     <Compile Include="GunTable.cs" />
     <Compile Include="Hooker.cs" />
     <Compile Include="Hopper.cs" />
+    <Compile Include="HsvSettings.cs" />
     <Compile Include="HudModel.cs" />
     <Compile Include="Monitor.cs" />
     <Compile Include="Painter.cs" />
@@ -94,7 +95,13 @@
     <Compile Include="Shooter.cs" />
     <Compile Include="ShotTable.cs" />
     <Compile Include="TestImage.cs" />
-    <Compile Include="Tyrannosaurus.cs" />
+    <Compile Include="Trex.cs" />
+    <Compile Include="TrexConfigure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrexConfigure.Designer.cs">
+      <DependentUpon>TrexConfigure.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vector.cs" />
     <Compile Include="VectorTable.cs" />
     <EmbeddedResource Include="AdvancedWindow.resx">
@@ -112,6 +119,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TrexConfigure.resx">
+      <DependentUpon>TrexConfigure.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

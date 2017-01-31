@@ -15,6 +15,7 @@ using Emgu.CV.XFeatures2D;
 using Emgu.CV.Util;
 using Emgu.CV.CvEnum;
 
+
 namespace CSGO_SmartCross
 {
 
@@ -23,9 +24,14 @@ namespace CSGO_SmartCross
      * This class provides an engine for a motion-detection based aimbot, as well as 
      * tracking of an acquired target using feature matching. In the laziest mode,
      * it simply detects motion and applies some filters, firing at the location of a
-     * confirmed target. In a more advanced more (trackingMode = true), TREx will 
-     * perform feature extration on the target initially found through motion detection
-     * using FAST, and then find this same target in subsequent images using feature matching.
+     * confirmed target. In a more advanced mode (trackingMode = true), TREx will 
+     * perform feature extraction on the target initially found through motion detection
+     * using FAST, and then attempt to locate this same target in subsequent images
+     * using feature matching.
+     * 
+     * One day I hope to give users the option to submit confirmed target feature sets
+     * to a centralized database so I can contruct a large dictionary of feature sets
+     * for the next generation of the aimbot engine.
      * 
      */
     class Trex
@@ -1011,12 +1017,7 @@ namespace CSGO_SmartCross
         //end of pinvoke nightmare
 
         //HSV variables:
-        public int hMin = 0;
-        public int hMax = 255;
-        public int sMin = 0;
-        public int sMax = 255;
-        public int vMin = 0;
-        public int vMax = 255;
+        public HsvSettings filter = new HsvSettings();
 
         //task variables:
         public bool running = false;
@@ -1053,8 +1054,11 @@ namespace CSGO_SmartCross
             moveInput.U.mi.dwFlags = MOUSEEVENTF.ABSOLUTE | MOUSEEVENTF.MOVE;
         }
 
+        Image<Gray, Byte> deadZoneFilter;
+
         public void start()
         {
+            deadZoneFilter = new Image<Gray, Byte>("deadzone.bmp");
             running = true;
             while (running)
             {
@@ -1075,7 +1079,7 @@ namespace CSGO_SmartCross
          * The hunt method endeavors to:
          * 
          * Performs motion detection on images 
-         * Filters result with dead zones //todo
+         * Filters result with dead zones
          * Performs an HSV filter
          * Finds targets 
          * Kills targets
@@ -1104,13 +1108,13 @@ namespace CSGO_SmartCross
                 look().CopyTo(currentView);
 
                 //compute the absolute difference:
-                Image<Bgr, Byte> diff = currentView.AbsDiff(pastView);
+                Image<Bgr, Byte> rawDiff = currentView.AbsDiff(pastView);
 
-                //todo apply dead zone mask:
-                diff = diff;
+                //apply dead zone mask:
+                Image<Bgr, Byte> diff = rawDiff.Copy(deadZoneFilter);
 
                 //check the number of changed pixels
-                if(useless(diff.CountNonzero()[0])) return;
+                if (useless(diff.CountNonzero()[0])) return;
 
                 //apply diff as a filter to current view:
                 Image<Gray, Byte> mask = diff.Convert<Gray, Byte>().InRange(new Gray(1), new Gray(255));
@@ -1119,9 +1123,9 @@ namespace CSGO_SmartCross
                 //apply HSV filter:
                 Image<Gray, Byte>[] channels = maskedView.Split();
 
-                Image<Gray, Byte> hFilter = channels[0].InRange(new Gray(hMin), new Gray(hMax));
-                Image<Gray, Byte> sFilter = channels[1].InRange(new Gray(sMin), new Gray(sMax));
-                Image<Gray, Byte> vFilter = channels[2].InRange(new Gray(vMin), new Gray(vMax));
+                Image<Gray, Byte> hFilter = channels[0].InRange(new Gray(filter.hMin), new Gray(filter.hMax));
+                Image<Gray, Byte> sFilter = channels[1].InRange(new Gray(filter.sMin), new Gray(filter.sMax));
+                Image<Gray, Byte> vFilter = channels[2].InRange(new Gray(filter.vMin), new Gray(filter.vMax));
 
                 Image<Gray, Byte> hsvFilter = hFilter.And(sFilter).And(vFilter);
                 
@@ -1174,7 +1178,8 @@ namespace CSGO_SmartCross
          * The track function endeavors to:
          * 
          * Extract features from the target
-         * While the TREX is enabled:
+         * 
+         * Then, while the TREX is enabled:
          *      find target in look()
          *      move to target and shoot
          *      sleep
@@ -1340,7 +1345,7 @@ namespace CSGO_SmartCross
 
         /*
          * 
-         * The functions before are ripped from Shooter.cs
+         * The functions below are ripped from Shooter.cs
          * 
          */
         //copy+paste from http://stackoverflow.com/questions/2416748/how-to-simulate-mouse-click-in-c

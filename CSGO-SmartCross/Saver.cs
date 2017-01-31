@@ -52,6 +52,11 @@ namespace CSGO_SmartCross
             settings.Append("Trigger reaction time," + hooker.shooter.reactionTime + "\n");
             settings.Append("Trigger rapidfire time," + hooker.shooter.rapidFireTime + "\n");
 
+            settings.Append("Trex delay," + hooker.trex.delay + "\n");
+            settings.Append("Trex reaction time," + hooker.trex.reactionTime + "\n");
+            settings.Append("Trex rapidfire time," + hooker.trex.rapidFireTime + "\n");
+            settings.Append("Trex tracking time," + hooker.trex.trackerDelay + "\n");
+            settings.Append("Trex burst shots," + hooker.trex.numShots + "\n");
 
             File.WriteAllText(location, settings.ToString());
         }

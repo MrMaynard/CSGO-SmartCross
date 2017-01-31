@@ -20,7 +20,7 @@ namespace CSGO_SmartCross
         public string primaryGun;
         public string secondaryGun;
         int stableAmmo = -1;
-        int previousAmmo = -1;
+        public int previousAmmo = -1;
         long unstableTime = -1;
         long currentTime = -1;
         public int delay = 10;
@@ -79,6 +79,11 @@ namespace CSGO_SmartCross
             currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         }
 
+        public bool badRead(int ammo)
+        {
+            return (ammo > previousAmmo) && ammo != table[gun].maxAmmo;
+        }
+
         //based on input ammo and time (ms long) decides what crosshair to send to the painter
         public void process(int ammo, long ms)
         {
@@ -86,9 +91,7 @@ namespace CSGO_SmartCross
             updateTime();
             if (ammo > previousAmmo)//reload condition (or gun swap :/ )
             {
-                //debug line:
-                if (ammo != table[gun].maxAmmo)//false alarm
-                    return;
+                if (badRead(ammo)) return;
                 stableAmmo = ammo;
                 crosshair.reset();//stabilize crosshair and set current stableAmmo to current ammo
                 vector.reset();

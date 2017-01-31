@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CSGO_SmartCross
 {
     //Reads a config file. The format of the input file is:
@@ -49,7 +50,6 @@ namespace CSGO_SmartCross
             string name = null;
             int lastShot = Int32.MaxValue;
             ulong tempTime = 0;
-
             foreach (var line in lines)
             {
                 if (line == "END")//if end found, prepare to read in a gun name

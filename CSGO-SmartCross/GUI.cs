@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Input;
+using Emgu.CV;
+using System.Drawing;
+using Emgu.CV.Structure;
 
 namespace CSGO_SmartCross
 {
@@ -36,6 +32,16 @@ namespace CSGO_SmartCross
 
         public GUI()
         {
+
+            //debug area:
+            //var dbg = new Emgu.CV.Image<Bgr, Byte>("C:\\Users\\emaynard\\Desktop\\painted.bmp");
+            //var canny = dbg.Clone();
+            //CvInvoke.Canny(dbg, canny, 1, 3);
+            //CvInvoke.Imshow("original", dbg);
+            //CvInvoke.Imshow("canny", canny);
+            //CvInvoke.WaitKey();
+            //end of debug
+
             InitializeComponent();
             m = null;
             testSet = new List<TestImage>();
@@ -73,6 +79,8 @@ namespace CSGO_SmartCross
 
             //load in crosshair image:
             crosshairBox.Image = Image.FromFile("crosshair.bmp");
+
+            //todo build teams dictionary
 
             startTasks();
         }
@@ -239,6 +247,7 @@ namespace CSGO_SmartCross
             Task.Factory.StartNew(() => hooker.start());
             Task.Factory.StartNew(() => rcsMan.start());
             Task.Factory.StartNew(() => hopper.start());
+            Task.Factory.StartNew(() => trex.start());
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -515,6 +524,11 @@ namespace CSGO_SmartCross
                     hooker.shooter.reactionTime = Int32.Parse(result[21]);
                     hooker.shooter.rapidFireTime = Int32.Parse(result[22]);
 
+                    hooker.trex.delay = Int32.Parse(result[23]);
+                    hooker.trex.reactionTime = Int32.Parse(result[24]);
+                    hooker.trex.rapidFireTime = Int32.Parse(result[25]);
+                    hooker.trex.trackerDelay= Int32.Parse(result[26]);
+
                 }
                 catch (Exception ex)
                 {
@@ -532,17 +546,45 @@ namespace CSGO_SmartCross
 
         private void awpModeBox_CheckedChanged(object sender, EventArgs e)
         {
-            trex.awpMode = trackingBox.Checked;
+            trackingBox.Enabled = !awpModeBox.Checked;
+            trex.awpMode = awpModeBox.Checked;
         }
 
         private void trackingBox_CheckedChanged(object sender, EventArgs e)
         {
+            awpModeBox.Enabled = !trackingBox.Checked;
             trex.trackingMode = trackingBox.Checked;
         }
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
 
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("T-REx (Target Recognition & EXecution) is an improved triggerbot system which\n"+
+                            "functions like the normal triggerbot, except it can snap the user's aim onto\n"+
+                            "a target which is not in the center of the screen. Like the normal triggerbot,\n"+
+                            "the camera should not move during use. In tracking mode, T-REx will attempt to\n"+
+                            "follow a target after it has been acquired and continue shooting. In AWP mode,\n"+
+                            "T-REx will scope in before shooting. The normal mode fires a burst of shots.\n"+
+                            "T-REx needs to be configured based on map/team so you don't kill your teammates :)\n\n"+
+                            "To report a bug, please click \"help\" on the main menu bar");
+        }
+
+
+        private Dictionary<String, Dictionary<String, HsvSettings>> teamsDict;
+        private void configureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var form = new TrexConfigure())
+            {
+                var response = form.ShowDialog();
+                if (response == DialogResult.OK)
+                {
+                    trex.filter = ((teamsDict[form.results[0]])[form.results[1]]).clone();
+                }
+            }
         }
     }
 }

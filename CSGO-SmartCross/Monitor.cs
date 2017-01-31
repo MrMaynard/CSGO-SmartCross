@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Emgu.CV.OCR;
+using Emgu.CV;
 
 namespace CSGO_SmartCross
 {
@@ -38,6 +40,7 @@ namespace CSGO_SmartCross
 
         //todo: does this change with 'gui scale' or something?
         //default for 1920 x 1080
+        //todo re-examine this box.
         public double widthToAmmoScale = 0.88507;
         public double heightToAmmoScale = 0.961111;
         public double widthToBoxWidthScale = 0.03125;
@@ -45,6 +48,8 @@ namespace CSGO_SmartCross
 
         public double widthToHpBar = (145.0 / 1920.0);
         public double heightToHpBar = (1060.0 / 1080.0);
+
+        private Tesseract _ocr;
 
         public void update(int maxAmmo)
         {
@@ -83,19 +88,41 @@ namespace CSGO_SmartCross
 
         public void start()
         {
+            _ocr = new Tesseract("", "eng", OcrEngineMode.TesseractOnly;
+            _ocr.SetVariable("tessedit_char_whitelist", "0123456789");
             model = new HudModel(captureScreen(), new ColorDecider(ColorDecider.IS_BRIGHT));
             running = true;
             int ammo = -1;
             while (running)
             {
                 System.Threading.Thread.Sleep(delay);
+
+                //read ammo using tesseract first:
                 ammo = readAmmo();
+
+                //if Tesseract seems to have failed, try the old OCR:
+                if (processor.badRead(ammo))
+                    ammo = readAmmo_old();
+
+                //report back to processor
                 long ms = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                 processor.process(ammo, ms);
             }
         }
 
+        //updated method leveraging Tesseract OCR engine
         public int readAmmo()
+        {
+
+            //create a UMat of the ammo zone:
+            UMat tmp = model.buildText(CaptureScreen.GetDesktopImage(area));
+            //use Tesseract to determine ammo::
+            _ocr.Recognize(tmp);
+            return Int32.Parse(_ocr.GetText());
+        }
+
+        //old method for manual OCR of the ammo
+        public int readAmmo_old()
         {
 
             maxAmmo = processor.getMaxAmmo();

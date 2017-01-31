@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Emgu.CV;
+using System.Drawing;
+using Emgu.CV.Structure;
+using Emgu.CV.OCR;
+using Emgu.CV.Util;
+using Emgu.CV.CvEnum;
 
 namespace CSGO_SmartCross
 {
@@ -17,6 +22,17 @@ namespace CSGO_SmartCross
         {
             this.decider = decider;
             buildSetFromImage(image);
+        }
+
+        public UMat buildText(Bitmap bmp)
+        {
+            Image<Gray, Byte>[] channels = new Image<Bgr, Byte>(bmp).Split();
+            return (
+                channels[0].InRange(new Gray(0), new Gray(decider.b_min))
+                .Or(
+                channels[1].InRange(new Gray(0), new Gray(decider.g_min)))
+                .Or(
+                channels[2].InRange(new Gray(0), new Gray(decider.r_min)))).ToUMat();
         }
 
         public void buildSetFromImage(Bitmap image)

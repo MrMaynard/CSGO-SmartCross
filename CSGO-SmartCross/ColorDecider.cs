@@ -14,6 +14,13 @@ namespace CSGO_SmartCross
         public const int IS_BRIGHT = 0;
         public const int SOMETHING_ELSE = 1;
 
+        public int b_max = 256;
+        public int b_min = 170;
+        public int g_max = 256;
+        public int g_min = 170;
+        public int r_max = 256;
+        public int r_min = 170;
+
         public int mode = -1;
 
         public ColorDecider(int mode)
