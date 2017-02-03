@@ -21,6 +21,7 @@ namespace CSGO_SmartCross
         public string secondaryGun;
         int stableAmmo = -1;
         public int previousAmmo = -1;
+        public int previousFull = -1;
         long unstableTime = -1;
         long currentTime = -1;
         public int delay = 10;

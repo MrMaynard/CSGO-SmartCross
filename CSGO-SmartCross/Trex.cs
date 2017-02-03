@@ -1107,11 +1107,8 @@ namespace CSGO_SmartCross
                 //get current view
                 look().CopyTo(currentView);
 
-                //compute the absolute difference:
-                Image<Bgr, Byte> rawDiff = currentView.AbsDiff(pastView);
-
-                //apply dead zone mask:
-                Image<Bgr, Byte> diff = rawDiff.Copy(deadZoneFilter);
+                //compute the absolute difference and apply deadzone:
+                Image<Bgr, Byte> diff = currentView.AbsDiff(pastView).Copy(deadZoneFilter);
 
                 //check the number of changed pixels
                 if (useless(diff.CountNonzero()[0])) return;

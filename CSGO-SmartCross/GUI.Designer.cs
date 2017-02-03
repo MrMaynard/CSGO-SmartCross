@@ -66,6 +66,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tRExToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,8 +77,6 @@
             this.trexBox = new System.Windows.Forms.CheckBox();
             this.trackingBox = new System.Windows.Forms.CheckBox();
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
-            this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -211,18 +211,19 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(12, 193);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(79, 13);
+            this.label4.Size = new System.Drawing.Size(64, 13);
             this.label4.TabIndex = 20;
-            this.label4.Text = "Triggerbot Key:";
+            this.label4.Text = "Trigger Key:";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(12, 222);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(53, 13);
+            this.label5.Size = new System.Drawing.Size(73, 13);
             this.label5.TabIndex = 22;
-            this.label5.Text = "RCS Key:";
+            this.label5.Text = "Stabilizer Key:";
             // 
             // rcsKeyBox
             // 
@@ -653,9 +654,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 137);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.Size = new System.Drawing.Size(51, 13);
             this.label1.TabIndex = 34;
-            this.label1.Text = "Bunnyhop Key:";
+            this.label1.Text = "Hop Key:";
             // 
             // bHopKeyBox
             // 
@@ -776,6 +777,20 @@
             this.tRExToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.tRExToolStripMenuItem.Text = "T-REx";
             // 
+            // configureToolStripMenuItem
+            // 
+            this.configureToolStripMenuItem.Name = "configureToolStripMenuItem";
+            this.configureToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.configureToolStripMenuItem.Text = "Configure";
+            this.configureToolStripMenuItem.Click += new System.EventHandler(this.configureToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -830,9 +845,9 @@
             this.trexBox.AutoSize = true;
             this.trexBox.Location = new System.Drawing.Point(165, 252);
             this.trexBox.Name = "trexBox";
-            this.trexBox.Size = new System.Drawing.Size(109, 17);
+            this.trexBox.Size = new System.Drawing.Size(83, 17);
             this.trexBox.TabIndex = 41;
-            this.trexBox.Text = "T-REX Triggerbot";
+            this.trexBox.Text = "TREx Mode";
             this.trexBox.UseVisualStyleBackColor = true;
             this.trexBox.CheckedChanged += new System.EventHandler(this.trexBox_CheckedChanged);
             // 
@@ -850,20 +865,6 @@
             // printDocument1
             // 
             this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
-            // 
-            // configureToolStripMenuItem
-            // 
-            this.configureToolStripMenuItem.Name = "configureToolStripMenuItem";
-            this.configureToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.configureToolStripMenuItem.Text = "Configure";
-            this.configureToolStripMenuItem.Click += new System.EventHandler(this.configureToolStripMenuItem_Click);
-            // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // GUI
             // 

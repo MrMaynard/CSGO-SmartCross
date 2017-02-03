@@ -35,6 +35,14 @@ namespace CSGO_SmartCross
 
             //debug area:
             //var dbg = new Emgu.CV.Image<Bgr, Byte>("C:\\Users\\emaynard\\Desktop\\painted.bmp");
+            //var dChannels = dbg.Erode(1).Dilate(5).Split();
+            //var deadzone = dChannels[0].InRange(new Gray(254), new Gray(256)).And(
+            //                dChannels[1].InRange(new Gray(254), new Gray(256)).And(
+            //                dChannels[2].InRange(new Gray(254), new Gray(256))));
+            // deadzone.Not().Save("C:\\Users\\emaynard\\Desktop\\deadzone.bmp");
+            //CvInvoke.Imshow("orig", dbg);
+            //CvInvoke.Imshow("canny",dbg.SmoothBlur(2,2).Canny(50.0,200.0));
+            //CvInvoke.WaitKey(0);
             //var canny = dbg.Clone();
             //CvInvoke.Canny(dbg, canny, 1, 3);
             //CvInvoke.Imshow("original", dbg);
@@ -585,6 +593,11 @@ namespace CSGO_SmartCross
                     trex.filter = ((teamsDict[form.results[0]])[form.results[1]]).clone();
                 }
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

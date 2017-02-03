@@ -40,11 +40,10 @@ namespace CSGO_SmartCross
 
         //todo: does this change with 'gui scale' or something?
         //default for 1920 x 1080
-        //todo re-examine this box.
-        public double widthToAmmoScale = 0.88507;
-        public double heightToAmmoScale = 0.961111;
-        public double widthToBoxWidthScale = 0.03125;
-        public double heightToBoxHeightScale = 0.025926;
+        public double widthToAmmoScale = 1690.0 / 1920.0;
+        public double heightToAmmoScale = 1030.0 / 1080.0;
+        public double widthToBoxWidthScale = (1765.0 - 1690.0) / 1920.0;
+        public double heightToBoxHeightScale = (1070.0 - 1030.0) / 1080.0;
 
         public double widthToHpBar = (145.0 / 1920.0);
         public double heightToHpBar = (1060.0 / 1080.0);
@@ -57,7 +56,7 @@ namespace CSGO_SmartCross
         }
 
         public Monitor()
-        {
+        {   
             area = new Rectangle(
                 (int)(width * widthToAmmoScale),
                 (int)(height * heightToAmmoScale),
@@ -88,7 +87,7 @@ namespace CSGO_SmartCross
 
         public void start()
         {
-            _ocr = new Tesseract("", "eng", OcrEngineMode.TesseractOnly;
+            _ocr = new Tesseract("", "eng", OcrEngineMode.TesseractOnly);
             _ocr.SetVariable("tessedit_char_whitelist", "0123456789");
             model = new HudModel(captureScreen(), new ColorDecider(ColorDecider.IS_BRIGHT));
             running = true;
