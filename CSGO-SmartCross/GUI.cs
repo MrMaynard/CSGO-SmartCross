@@ -1,10 +1,13 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Emgu.CV;
 using System.Drawing;
 using Emgu.CV.Structure;
+
 
 namespace CSGO_SmartCross
 {
@@ -30,6 +33,11 @@ namespace CSGO_SmartCross
 
         Point screenSize = new Point(1920, 1080);
 
+        string patterns;
+        Bitmap deadzone;
+        Bitmap crosshair;
+        Bitmap[] digits;
+
         public GUI()
         {
 
@@ -50,15 +58,16 @@ namespace CSGO_SmartCross
             //CvInvoke.WaitKey();
             //end of debug
 
+            getResources();
             InitializeComponent();
             m = null;
             testSet = new List<TestImage>();
             initialize();
 
-            table = Reader.readFile("patterns.txt", screenSize);
+            table = Reader.readFile(patterns.Split('\n'), screenSize);
             painter = new Painter();
             cross = new Crosshair(screenSize.X / 2, screenSize.Y / 2);
-            //cross.setImage(crosshairBox.Image);
+            cross.setImage(crosshair);
             rcsMan = new RcsManager(new Vector(), screenSize);
             processor = new Processor(table, painter, rcsMan, "AK-47", "GLOCK-18", cross);
             hopper = new Hopper();
@@ -67,7 +76,7 @@ namespace CSGO_SmartCross
             
             shooter = new Shooter(100, new Point(screenSize.X / 2, screenSize.Y / 2));
 
-            trex = new Trex(screenSize);
+            trex = new Trex(screenSize, deadzone);
 
             hooker = new Hooker(shooter, rcsMan, processor, hopper, trex, Keys.A, Keys.A, Keys.A, Keys.A, Keys.A);
             
@@ -86,12 +95,43 @@ namespace CSGO_SmartCross
             bHopHoldButton.Checked = true;
 
             //load in crosshair image:
-            crosshairBox.Image = Image.FromFile("crosshair.bmp");
+            crosshairBox.Image = crosshair;
 
             //todo build teams dictionary
 
             startTasks();
         }
+
+        private void getResources()
+        {
+            try
+            {
+                var _assembly = Assembly.GetExecutingAssembly();
+
+                //read deadzone filter:
+                var filterStream = _assembly.GetManifestResourceStream("CSGO_SmartCross.deadzone.bmp");
+
+                //read default crosshair:
+                var crosshairStream = _assembly.GetManifestResourceStream("CSGO_SmartCross.crosshair.bmp");
+
+                //read patterns:
+                var patternStream = new StreamReader(_assembly.GetManifestResourceStream("CSGO_SmartCross.patterns.txt"));
+
+                deadzone = new Bitmap(filterStream);
+                crosshair = new Bitmap(crosshairStream);
+                patterns = patternStream.ReadToEnd();
+
+                //read reference OCR digits:
+                for (int i = 0; i < 10; i++)
+                    digits[i] = new Bitmap(_assembly.GetManifestResourceStream("CSGO_SmartCross.reference " + i + ".bmp"));
+
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Error accessing resources:\t"+e.Message);
+            }
+        }
+
         int numberCaptured = 0;
         private void startButton_Click(object sender, EventArgs e)
         {
@@ -179,20 +219,20 @@ namespace CSGO_SmartCross
 
             try
             {
-                filters.Add(new Filter(new Bitmap("reference 0.bmp"), 0));
-                filters.Add(new Filter(new Bitmap("reference 1.bmp"), 1));
-                filters.Add(new Filter(new Bitmap("reference 2.bmp"), 2));
-                filters.Add(new Filter(new Bitmap("reference 3.bmp"), 3));
-                filters.Add(new Filter(new Bitmap("reference 4.bmp"), 4));
-                filters.Add(new Filter(new Bitmap("reference 5.bmp"), 5));
-                filters.Add(new Filter(new Bitmap("reference 6.bmp"), 6));
-                filters.Add(new Filter(new Bitmap("reference 7.bmp"), 7));
-                filters.Add(new Filter(new Bitmap("reference 8.bmp"), 8));
-                filters.Add(new Filter(new Bitmap("reference 9.bmp"), 9));
+                filters.Add(new Filter(digits[0], 0));
+                filters.Add(new Filter(digits[1], 1));
+                filters.Add(new Filter(digits[2], 2));
+                filters.Add(new Filter(digits[3], 3));
+                filters.Add(new Filter(digits[4], 4));
+                filters.Add(new Filter(digits[5], 5));
+                filters.Add(new Filter(digits[6], 6));
+                filters.Add(new Filter(digits[7], 7));
+                filters.Add(new Filter(digits[8], 8));
+                filters.Add(new Filter(digits[9], 9));
             }
             catch(Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("Couldn't load resource files");
+                System.Windows.Forms.MessageBox.Show("Couldn't load custom OCR files");
             }
             
             m = new Monitor(new Rectangle(), new Processor(), filters);

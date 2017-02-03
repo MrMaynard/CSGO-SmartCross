@@ -136,12 +136,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="crosshair.bmp" />
+    <EmbeddedResource Include="crosshair.bmp" />
     <Content Include="cvextern.dll" />
+    <EmbeddedResource Include="deadzone.bmp" />
     <Content Include="msvcp120.dll" />
     <Content Include="msvcr120.dll" />
     <Content Include="opencv_ffmpeg310.dll" />
-    <Content Include="patterns.txt" />
+    <EmbeddedResource Include="patterns.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

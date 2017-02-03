@@ -1040,11 +1040,12 @@ namespace CSGO_SmartCross
         private Point screenSize;
         Random random = new Random();
         private const double vecToMouse = (.2 * 1.6 * .25 * 0.22);
-        
+        private Bitmap deadzone;
 
-        public Trex(Point screenSize)
+        public Trex(Point screenSize, Bitmap deadzone)
         {
             this.screenSize = screenSize;
+            this.deadzone = deadzone;
 
             pastView = new Image<Bgr, Byte>(screenSize.X, screenSize.Y);
             currentView = new Image<Bgr, Byte>(screenSize.X, screenSize.Y);
@@ -1058,7 +1059,7 @@ namespace CSGO_SmartCross
 
         public void start()
         {
-            deadZoneFilter = new Image<Gray, Byte>("deadzone.bmp");
+            deadZoneFilter = new Image<Gray, Byte>(this.deadzone);
             running = true;
             while (running)
             {

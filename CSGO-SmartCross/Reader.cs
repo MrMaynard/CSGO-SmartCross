@@ -30,18 +30,24 @@ namespace CSGO_SmartCross
 
     class Reader
     {
-        public static GunTable readFile(string file, Point screenSize)
+
+        public static GunTable readFileFromLoc(string file, Point screenSize)
         {
             IEnumerable<String> lines = null;
-            GunTable table = new GunTable();
             try
             {
                 lines = File.ReadLines(file);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show("Couldn't find recoil file:\t" + file);
             }
+            return readFile(lines.ToArray(), screenSize);
+        }
+
+        public static GunTable readFile(string[] lines, Point screenSize)
+        {
+            GunTable table = new GunTable();
             bool firstTimeEver = true;
             bool endFlag = false;
             bool firstNumberFlag = false;
