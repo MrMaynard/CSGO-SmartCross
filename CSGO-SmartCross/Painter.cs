@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Drawing;
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     class Painter
     {

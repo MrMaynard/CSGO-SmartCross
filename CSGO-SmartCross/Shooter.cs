@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     class Shooter
     {

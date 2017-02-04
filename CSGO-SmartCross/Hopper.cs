@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     //handles bhopping.
     class Hopper

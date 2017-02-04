@@ -9,7 +9,7 @@ using System.Drawing;
 using Emgu.CV.Structure;
 
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     public partial class GUI : Form
     {
@@ -37,25 +37,21 @@ namespace CSGO_SmartCross
         Bitmap deadzone;
         Bitmap crosshair;
         Bitmap[] digits;
+        Coder coder = new Coder();
 
         public GUI()
         {
 
             //debug area:
-            //var dbg = new Emgu.CV.Image<Bgr, Byte>("C:\\Users\\emaynard\\Desktop\\painted.bmp");
-            //var dChannels = dbg.Erode(1).Dilate(5).Split();
-            //var deadzone = dChannels[0].InRange(new Gray(254), new Gray(256)).And(
-            //                dChannels[1].InRange(new Gray(254), new Gray(256)).And(
-            //                dChannels[2].InRange(new Gray(254), new Gray(256))));
-            // deadzone.Not().Save("C:\\Users\\emaynard\\Desktop\\deadzone.bmp");
-            //CvInvoke.Imshow("orig", dbg);
-            //CvInvoke.Imshow("canny",dbg.SmoothBlur(2,2).Canny(50.0,200.0));
-            //CvInvoke.WaitKey(0);
-            //var canny = dbg.Clone();
-            //CvInvoke.Canny(dbg, canny, 1, 3);
-            //CvInvoke.Imshow("original", dbg);
-            //CvInvoke.Imshow("canny", canny);
-            //CvInvoke.WaitKey();
+            //string input = "banana";
+            //while(true){
+            //   // System.Threading.Thread.Sleep(1000);
+            //    input = Console.ReadLine();
+            //    if (input == "exit") break;
+            //    //Console.WriteLine("you input \"" + input + "\"");
+            //    Console.WriteLine(coder.encrypt(input));
+            //}
+
             //end of debug
 
             getResources();
@@ -69,7 +65,7 @@ namespace CSGO_SmartCross
             cross = new Crosshair(screenSize.X / 2, screenSize.Y / 2);
             cross.setImage(crosshair);
             rcsMan = new RcsManager(new Vector(), screenSize);
-            processor = new Processor(table, painter, rcsMan, "AK-47", "GLOCK-18", cross);
+            processor = new Processor(table, painter, rcsMan, coder.decrypt("WZ-pd"), coder.decrypt("ACVRZ-uf"), cross);
             hopper = new Hopper();
             m.processor = processor;
             setupTable();
@@ -109,13 +105,13 @@ namespace CSGO_SmartCross
                 var _assembly = Assembly.GetExecutingAssembly();
 
                 //read deadzone filter:
-                var filterStream = _assembly.GetManifestResourceStream("CSGO_SmartCross.deadzone.bmp");
+                var filterStream = _assembly.GetManifestResourceStream(coder.decrypt("M j34R38kk.l2jly8q2.w 9"));
 
                 //read default crosshair:
-                var crosshairStream = _assembly.GetManifestResourceStream("CSGO_SmartCross.crosshair.bmp");
+                var crosshairStream = _assembly.GetManifestResourceStream(coder.decrypt("M j34R38kk.r38kkcj73.w 9"));
 
                 //read patterns:
-                var patternStream = new StreamReader(_assembly.GetManifestResourceStream("CSGO_SmartCross.patterns.txt"));
+                var patternStream = new StreamReader(_assembly.GetManifestResourceStream(coder.decrypt("M j34R38kk.9j4423qk.4t4")));
 
                 deadzone = new Bitmap(filterStream);
                 crosshair = new Bitmap(crosshairStream);
@@ -123,12 +119,15 @@ namespace CSGO_SmartCross
 
                 //read reference OCR digits:
                 for (int i = 0; i < 10; i++)
-                    digits[i] = new Bitmap(_assembly.GetManifestResourceStream("CSGO_SmartCross.reference " + i + ".bmp"));
+                    //digits[i] = new Bitmap(_assembly.GetManifestResourceStream(coder.decrypt("M j34R38kk.32z232qr20") + i + ".bmp"));
+                ;
 
             }
             catch(Exception e)
             {
-                MessageBox.Show("Error accessing resources:\t"+e.Message);
+                MessageBox.Show("Error accessing embedded resources!");
+                Console.WriteLine(e.StackTrace);
+                ;
             }
         }
 
@@ -217,23 +216,23 @@ namespace CSGO_SmartCross
         {
             List<Filter> filters = new List<Filter>();
 
-            try
-            {
-                filters.Add(new Filter(digits[0], 0));
-                filters.Add(new Filter(digits[1], 1));
-                filters.Add(new Filter(digits[2], 2));
-                filters.Add(new Filter(digits[3], 3));
-                filters.Add(new Filter(digits[4], 4));
-                filters.Add(new Filter(digits[5], 5));
-                filters.Add(new Filter(digits[6], 6));
-                filters.Add(new Filter(digits[7], 7));
-                filters.Add(new Filter(digits[8], 8));
-                filters.Add(new Filter(digits[9], 9));
-            }
-            catch(Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show("Couldn't load custom OCR files");
-            }
+            //try
+            //{
+            //    filters.Add(new Filter(digits[0], 0));
+            //    filters.Add(new Filter(digits[1], 1));
+            //    filters.Add(new Filter(digits[2], 2));
+            //    filters.Add(new Filter(digits[3], 3));
+            //    filters.Add(new Filter(digits[4], 4));
+            //    filters.Add(new Filter(digits[5], 5));
+            //    filters.Add(new Filter(digits[6], 6));
+            //    filters.Add(new Filter(digits[7], 7));
+            //    filters.Add(new Filter(digits[8], 8));
+            //    filters.Add(new Filter(digits[9], 9));
+            //}
+            //catch(Exception ex)
+            //{
+            //    System.Windows.Forms.MessageBox.Show("Couldn't load custom OCR files");
+            //}
             
             m = new Monitor(new Rectangle(), new Processor(), filters);
             m.setDefaultArea();
@@ -251,7 +250,6 @@ namespace CSGO_SmartCross
             int bestB = -1;
             int bestC = -1;
             int bestD = -1;
-            int counter = 0;
             
             for (int a = -3; a <= 3; a++)
             {
@@ -283,8 +281,6 @@ namespace CSGO_SmartCross
                 }
             }
 
-            Console.WriteLine("Accuracy of " + max +" for the following:");
-            Console.WriteLine(bestA + "\t" + bestB + "\t" + bestC + "\t" + bestD);
         }
 
         private void startTasks()
@@ -352,12 +348,12 @@ namespace CSGO_SmartCross
             if (enabled)
             {
                 alwaysBox.Enabled = true;
-                crosshairButton.Text = "Disable Crosshair";
+                crosshairButton.Text = coder.decrypt("T7kjwn20R38kkcj73");
             }
             else
             {
                 alwaysBox.Enabled = false;
-                crosshairButton.Text = "Enable Crosshair";
+                crosshairButton.Text = coder.decrypt("Yqjwn20R38kkcj73");
             }
         }
 
@@ -446,10 +442,10 @@ namespace CSGO_SmartCross
 
         }
 
-        private string crosshairFile = "crosshair.bmp";
+        private string crosshairFile = "";
         private void crosshairImageButton_Click(object sender, EventArgs e)
         {
-            string fileName = "crosshair.bmp";
+            string fileName = coder.decrypt("r38kkcj73.w 9");
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Filter = "Image Files (*.bmp, *.jpg)|*.bmp;*.jpg";
             DialogResult result = dialog.ShowDialog();
@@ -473,7 +469,7 @@ namespace CSGO_SmartCross
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/MrMaynard/CSGO-SmartCross/issues");
+            System.Diagnostics.Process.Start(coder.decrypt("c449k://x74c6w.r8 /J3Jj5qj3l/RMAV-M j34R38kk/7kk62k"));
         }
 
         private void advancedToolStripMenuItem_Click(object sender, EventArgs e)
@@ -611,14 +607,7 @@ namespace CSGO_SmartCross
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("T-REx (Target Recognition & EXecution) is an improved triggerbot system which\n"+
-                            "functions like the normal triggerbot, except it can snap the user's aim onto\n"+
-                            "a target which is not in the center of the screen. Like the normal triggerbot,\n"+
-                            "the camera should not move during use. In tracking mode, T-REx will attempt to\n"+
-                            "follow a target after it has been acquired and continue shooting. In AWP mode,\n"+
-                            "T-REx will scope in before shooting. The normal mode fires a burst of shots.\n"+
-                            "T-REx needs to be configured based on map/team so you don't kill your teammates :)\n\n"+
-                            "To report a bug, please click \"help\" on the main menu bar");
+            MessageBox.Show("Todo");
         }
 
 

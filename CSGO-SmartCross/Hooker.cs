@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Runtime.InteropServices;
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     //this class hooks inputs and forwards data to other classes
     class Hooker

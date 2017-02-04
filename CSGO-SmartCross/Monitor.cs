@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 using Emgu.CV.OCR;
 using Emgu.CV;
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     class Monitor
     {

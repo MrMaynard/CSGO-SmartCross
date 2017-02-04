@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     class Crosshair
     {

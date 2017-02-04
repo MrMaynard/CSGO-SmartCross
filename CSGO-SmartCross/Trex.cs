@@ -16,7 +16,7 @@ using Emgu.CV.Util;
 using Emgu.CV.CvEnum;
 
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
 
     /*

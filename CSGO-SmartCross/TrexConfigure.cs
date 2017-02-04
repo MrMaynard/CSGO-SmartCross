@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     public partial class TrexConfigure : Form
     {

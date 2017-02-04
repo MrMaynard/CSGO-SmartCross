@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     //Reads a config file. The format of the input file is:
 

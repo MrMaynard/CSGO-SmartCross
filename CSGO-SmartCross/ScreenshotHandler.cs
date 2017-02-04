@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     /// <summary>
     /// This class shall keep the GDI32 APIs used in our program.

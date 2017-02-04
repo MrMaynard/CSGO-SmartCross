@@ -1,4 +1,4 @@
-﻿namespace CSGO_SmartCross
+﻿namespace SmartCross
 {
     partial class TrexConfigure
     {

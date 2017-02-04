@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CSGO_SmartCross
+namespace SmartCross
 {
     static class Program
     {
@@ -14,9 +14,37 @@ namespace CSGO_SmartCross
         [STAThread]
         static void Main()
         {
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GUI());
+
+            if (!gate())
+            {
+                MessageBox.Show("Unable to parse template files.", "Read error");
+                Application.Exit();
+            }
+            else
+            {
+                Application.Run(new GUI());
+            }
+
+            
+            
         }
-    }
+
+
+        private static bool gate()
+        {
+            MessageBox.Show("Failed to load resource files!\n" +
+                "If you have moved the template files somewhere, please input their parent folder in the following dialog.",
+                "Eric's Custom Crosshair Maker");
+
+            using (var form = new Gate())
+            {
+                var response = form.ShowDialog();
+                return (response == DialogResult.OK);
+            }
+            return false;
+        }
+    }      
 }

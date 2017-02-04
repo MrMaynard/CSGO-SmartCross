@@ -1,4 +1,4 @@
-﻿namespace CSGO_SmartCross
+﻿namespace SmartCross
 {
     partial class GUI
     {
@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+
+            Coder coder = new Coder();
+
             this.primaryGunLabel = new System.Windows.Forms.Label();
             this.secondaryGunLabel = new System.Windows.Forms.Label();
             this.primaryBox = new System.Windows.Forms.TextBox();
@@ -89,7 +92,7 @@
             // 
             this.primaryGunLabel.AutoSize = true;
             this.primaryGunLabel.Location = new System.Drawing.Point(12, 49);
-            this.primaryGunLabel.Name = "primaryGunLabel";
+            this.primaryGunLabel.Name = coder.decrypt("937 j35A6qCjw2n");
             this.primaryGunLabel.Size = new System.Drawing.Size(44, 13);
             this.primaryGunLabel.TabIndex = 13;
             this.primaryGunLabel.Text = "Primary:";
@@ -98,7 +101,7 @@
             // 
             this.secondaryGunLabel.AutoSize = true;
             this.secondaryGunLabel.Location = new System.Drawing.Point(12, 88);
-            this.secondaryGunLabel.Name = "secondaryGunLabel";
+            this.secondaryGunLabel.Name = coder.decrypt("k2r8qlj35A6qCjw2n");
             this.secondaryGunLabel.Size = new System.Drawing.Size(61, 13);
             this.secondaryGunLabel.TabIndex = 14;
             this.secondaryGunLabel.Text = "Secondary:";
@@ -110,7 +113,7 @@
             this.primaryBox.Name = "primaryBox";
             this.primaryBox.Size = new System.Drawing.Size(77, 20);
             this.primaryBox.TabIndex = 0;
-            this.primaryBox.Text = "AK-47";
+            this.primaryBox.Text = coder.decrypt("WZ-pd");
             this.primaryBox.TextChanged += new System.EventHandler(this.primaryBox_TextChanged);
             // 
             // secondaryBox
@@ -120,7 +123,7 @@
             this.secondaryBox.Name = "secondaryBox";
             this.secondaryBox.Size = new System.Drawing.Size(77, 20);
             this.secondaryBox.TabIndex = 1;
-            this.secondaryBox.Text = "Glock-18";
+            this.secondaryBox.Text = coder.decrypt("An8rb-uf");
             this.secondaryBox.TextChanged += new System.EventHandler(this.secondaryBox_TextChanged);
             // 
             // alwaysBox
@@ -130,17 +133,17 @@
             this.alwaysBox.Name = "alwaysBox";
             this.alwaysBox.Size = new System.Drawing.Size(129, 17);
             this.alwaysBox.TabIndex = 17;
-            this.alwaysBox.Text = "Show stable crosshair";
+            this.alwaysBox.Text = coder.decrypt("Mc810k4jwn20r38kkcj73");
             this.alwaysBox.UseVisualStyleBackColor = true;
             this.alwaysBox.CheckedChanged += new System.EventHandler(this.alwaysBox_CheckedChanged);
             // 
             // crosshairButton
             // 
             this.crosshairButton.Location = new System.Drawing.Point(12, 342);
-            this.crosshairButton.Name = "crosshairButton";
+            this.crosshairButton.Name = coder.decrypt("r38kkcj73P6448q");
             this.crosshairButton.Size = new System.Drawing.Size(265, 22);
             this.crosshairButton.TabIndex = 18;
-            this.crosshairButton.Text = "Disable Crosshair";
+            this.crosshairButton.Text = coder.decrypt("T7kjwn20R38kkcj73");
             this.crosshairButton.UseVisualStyleBackColor = true;
             this.crosshairButton.Click += new System.EventHandler(this.crosshairButton_Click);
             // 
@@ -201,7 +204,7 @@
             "MB2",
             "MB3"});
             this.triggerKeyBox.Location = new System.Drawing.Point(97, 190);
-            this.triggerKeyBox.Name = "triggerKeyBox";
+            this.triggerKeyBox.Name = coder.decrypt("437xx23Z25P8t");
             this.triggerKeyBox.Size = new System.Drawing.Size(51, 21);
             this.triggerKeyBox.TabIndex = 19;
             this.triggerKeyBox.SelectedIndexChanged += new System.EventHandler(this.triggerKeyBox_SelectedIndexChanged);
@@ -213,7 +216,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(64, 13);
             this.label4.TabIndex = 20;
-            this.label4.Text = "Trigger Key:";
+            this.label4.Text = coder.decrypt("S37xx23w840Z25:");
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
@@ -223,7 +226,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 13);
             this.label5.TabIndex = 22;
-            this.label5.Text = "Stabilizer Key:";
+            this.label5.Text = coder.decrypt("ORM0Z25:");
             // 
             // rcsKeyBox
             // 
@@ -282,7 +285,7 @@
             "MB2",
             "MB3"});
             this.rcsKeyBox.Location = new System.Drawing.Point(97, 218);
-            this.rcsKeyBox.Name = "rcsKeyBox";
+            this.rcsKeyBox.Name = coder.decrypt("3rkZ25P8t");
             this.rcsKeyBox.Size = new System.Drawing.Size(51, 21);
             this.rcsKeyBox.TabIndex = 21;
             this.rcsKeyBox.SelectedIndexChanged += new System.EventHandler(this.rcsKeyBox_SelectedIndexChanged);
@@ -437,7 +440,7 @@
             this.primaryLabel.Name = "primaryLabel";
             this.primaryLabel.Size = new System.Drawing.Size(75, 13);
             this.primaryLabel.TabIndex = 27;
-            this.primaryLabel.Text = "AK-47 Loaded";
+            this.primaryLabel.Text = coder.decrypt("WZ-pd0C8jl2l");
             this.primaryLabel.Click += new System.EventHandler(this.primaryLabel_Click);
             // 
             // secondaryLabel
@@ -447,14 +450,14 @@
             this.secondaryLabel.Name = "secondaryLabel";
             this.secondaryLabel.Size = new System.Drawing.Size(97, 13);
             this.secondaryLabel.TabIndex = 28;
-            this.secondaryLabel.Text = "GLOCK-18 Loaded";
+            this.secondaryLabel.Text = coder.decrypt("ACVRZ-uf0C8jl2l");
             this.secondaryLabel.Click += new System.EventHandler(this.secondaryLabel_Click);
             // 
             // triggerToggleButton
             // 
             this.triggerToggleButton.AutoSize = true;
             this.triggerToggleButton.Location = new System.Drawing.Point(3, 3);
-            this.triggerToggleButton.Name = "triggerToggleButton";
+            this.triggerToggleButton.Name = coder.decrypt("437xx23S8xxn2P6448q");
             this.triggerToggleButton.Size = new System.Drawing.Size(58, 17);
             this.triggerToggleButton.TabIndex = 0;
             this.triggerToggleButton.TabStop = true;
@@ -466,7 +469,7 @@
             // 
             this.triggerHoldButton.AutoSize = true;
             this.triggerHoldButton.Location = new System.Drawing.Point(67, 3);
-            this.triggerHoldButton.Name = "triggerHoldButton";
+            this.triggerHoldButton.Name = coder.decrypt("437xx23F8nlP6448q");
             this.triggerHoldButton.Size = new System.Drawing.Size(47, 17);
             this.triggerHoldButton.TabIndex = 1;
             this.triggerHoldButton.TabStop = true;
@@ -495,7 +498,7 @@
             // 
             this.rcsHoldButton.AutoSize = true;
             this.rcsHoldButton.Location = new System.Drawing.Point(67, 2);
-            this.rcsHoldButton.Name = "rcsHoldButton";
+            this.rcsHoldButton.Name = coder.decrypt("3rkF8nlP6448q");
             this.rcsHoldButton.Size = new System.Drawing.Size(47, 17);
             this.rcsHoldButton.TabIndex = 1;
             this.rcsHoldButton.TabStop = true;
@@ -506,7 +509,7 @@
             // 
             this.rcsToggleButton.AutoSize = true;
             this.rcsToggleButton.Location = new System.Drawing.Point(3, 3);
-            this.rcsToggleButton.Name = "rcsToggleButton";
+            this.rcsToggleButton.Name = coder.decrypt("3rkS8xxn2P6448q");
             this.rcsToggleButton.Size = new System.Drawing.Size(58, 17);
             this.rcsToggleButton.TabIndex = 0;
             this.rcsToggleButton.TabStop = true;
@@ -527,7 +530,7 @@
             // 
             this.rapidHoldButton.AutoSize = true;
             this.rapidHoldButton.Location = new System.Drawing.Point(67, 3);
-            this.rapidHoldButton.Name = "rapidHoldButton";
+            this.rapidHoldButton.Name = coder.decrypt("3j97lF8nlP6448q");
             this.rapidHoldButton.Size = new System.Drawing.Size(47, 17);
             this.rapidHoldButton.TabIndex = 1;
             this.rapidHoldButton.TabStop = true;
@@ -538,7 +541,7 @@
             // 
             this.rapidToggleButton.AutoSize = true;
             this.rapidToggleButton.Location = new System.Drawing.Point(3, 3);
-            this.rapidToggleButton.Name = "rapidToggleButton";
+            this.rapidToggleButton.Name = coder.decrypt("3j97lS8xxn2P6448q");
             this.rapidToggleButton.Size = new System.Drawing.Size(58, 17);
             this.rapidToggleButton.TabIndex = 0;
             this.rapidToggleButton.TabStop = true;
@@ -553,7 +556,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(73, 13);
             this.label8.TabIndex = 31;
-            this.label8.Text = "Rapidfire Key:";
+            this.label8.Text = coder.decrypt("Oj97lz7320Z25:");
             // 
             // rapidKeyBox
             // 
@@ -630,7 +633,7 @@
             // 
             this.bHopHoldButton.AutoSize = true;
             this.bHopHoldButton.Location = new System.Drawing.Point(67, 3);
-            this.bHopHoldButton.Name = "bHopHoldButton";
+            this.bHopHoldButton.Name = coder.decrypt("wF89F8nlP6448q");
             this.bHopHoldButton.Size = new System.Drawing.Size(47, 17);
             this.bHopHoldButton.TabIndex = 1;
             this.bHopHoldButton.TabStop = true;
@@ -641,7 +644,7 @@
             // 
             this.bHopToggleButton.AutoSize = true;
             this.bHopToggleButton.Location = new System.Drawing.Point(3, 3);
-            this.bHopToggleButton.Name = "bHopToggleButton";
+            this.bHopToggleButton.Name = coder.decrypt("wF89S8xxn2P6448q");
             this.bHopToggleButton.Size = new System.Drawing.Size(58, 17);
             this.bHopToggleButton.TabIndex = 0;
             this.bHopToggleButton.TabStop = true;
@@ -656,7 +659,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(51, 13);
             this.label1.TabIndex = 34;
-            this.label1.Text = "Hop Key:";
+            this.label1.Text = coder.decrypt("PF890Z25:");
             // 
             // bHopKeyBox
             // 
@@ -715,16 +718,16 @@
             "MB2",
             "MB3"});
             this.bHopKeyBox.Location = new System.Drawing.Point(97, 134);
-            this.bHopKeyBox.Name = "bHopKeyBox";
+            this.bHopKeyBox.Name = coder.decrypt("wF89Z25P8t");
             this.bHopKeyBox.Size = new System.Drawing.Size(51, 21);
             this.bHopKeyBox.TabIndex = 33;
             this.bHopKeyBox.SelectedIndexChanged += new System.EventHandler(this.bHopKeyBox_SelectedIndexChanged);
             // 
             // crosshairBox
             // 
-            this.crosshairBox.ImageLocation = "crosshair.bmp";
+            this.crosshairBox.ImageLocation = coder.decrypt("r38kkcj73.w 9");
             this.crosshairBox.Location = new System.Drawing.Point(101, 257);
-            this.crosshairBox.Name = "crosshairBox";
+            this.crosshairBox.Name = coder.decrypt("r38kkcj73P8t");
             this.crosshairBox.Size = new System.Drawing.Size(50, 50);
             this.crosshairBox.TabIndex = 36;
             this.crosshairBox.TabStop = false;
@@ -734,18 +737,18 @@
             // 
             this.crosshairLabel.AutoSize = true;
             this.crosshairLabel.Location = new System.Drawing.Point(12, 253);
-            this.crosshairLabel.Name = "crosshairLabel";
+            this.crosshairLabel.Name = coder.decrypt("r38kkcj73Cjw2n");
             this.crosshairLabel.Size = new System.Drawing.Size(85, 13);
             this.crosshairLabel.TabIndex = 37;
-            this.crosshairLabel.Text = "Crosshair Image:";
+            this.crosshairLabel.Text = coder.decrypt("R38kkcj730X jx2:");
             // 
             // crosshairImageButton
             // 
             this.crosshairImageButton.Location = new System.Drawing.Point(12, 313);
-            this.crosshairImageButton.Name = "crosshairImageButton";
+            this.crosshairImageButton.Name = coder.decrypt("r38kkcj73X jx2P6448q");
             this.crosshairImageButton.Size = new System.Drawing.Size(108, 23);
             this.crosshairImageButton.TabIndex = 38;
-            this.crosshairImageButton.Text = "Change Crosshair";
+            this.crosshairImageButton.Text = coder.decrypt("Rcjqx20R38kkcj73");
             this.crosshairImageButton.UseVisualStyleBackColor = true;
             this.crosshairImageButton.Click += new System.EventHandler(this.crosshairImageButton_Click);
             // 
@@ -833,10 +836,10 @@
             // 
             this.awpModeBox.AutoSize = true;
             this.awpModeBox.Location = new System.Drawing.Point(206, 279);
-            this.awpModeBox.Name = "awpModeBox";
+            this.awpModeBox.Name = coder.decrypt("j19J8l2P8t");
             this.awpModeBox.Size = new System.Drawing.Size(81, 17);
             this.awpModeBox.TabIndex = 40;
-            this.awpModeBox.Text = "AWP Mode";
+            this.awpModeBox.Text = coder.decrypt("WGB0J8l2");
             this.awpModeBox.UseVisualStyleBackColor = true;
             this.awpModeBox.CheckedChanged += new System.EventHandler(this.awpModeBox_CheckedChanged);
             // 
@@ -855,10 +858,10 @@
             // 
             this.trackingBox.AutoSize = true;
             this.trackingBox.Location = new System.Drawing.Point(206, 303);
-            this.trackingBox.Name = "trackingBox";
+            this.trackingBox.Name = coder.decrypt("43jrb7qxP8t");
             this.trackingBox.Size = new System.Drawing.Size(68, 17);
             this.trackingBox.TabIndex = 42;
-            this.trackingBox.Text = "Tracking";
+            this.trackingBox.Text = coder.decrypt("S3jrb7qx");
             this.trackingBox.UseVisualStyleBackColor = true;
             this.trackingBox.CheckedChanged += new System.EventHandler(this.trackingBox_CheckedChanged);
             // 
@@ -904,7 +907,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "GUI";
-            this.Text = "SmartCross";
+            this.Text = coder.decrypt("M j34R38kk");
             this.Load += new System.EventHandler(this.GUI_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
